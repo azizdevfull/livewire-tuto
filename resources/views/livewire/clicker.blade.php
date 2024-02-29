@@ -1,4 +1,7 @@
 <div>
+    @if (session('success'))
+        <span class="px-3 py-3 bg-green-600 text-white  rounded">{{ session('success') }}</span>
+    @endif
     <div class="flex items-center justify-center p-12">
         <div class="mx-auto w-full max-w-[550px]">
             <form wire:submit='createNewUser' action="">

@@ -6,11 +6,12 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 
 class Clicker extends Component
 {
-    use WithPagination;
+    use WithPagination, WithFileUploads;
 
     #[Rule('required|min:2|max:50')]
     public $name = '';
@@ -21,18 +22,20 @@ class Clicker extends Component
     #[Rule('required|min:5')]
     public $password = '';
 
+    #[Rule('nullable|sometimes|image|max:1024')]
+    public $image;
     public function createNewUser()
     {
         $validated = $this->validate();
-        User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password'])
-        ]);
 
-        $this->reset(['name', 'email', 'password']);
+        if ($this->image) {
+            $validated['image'] = $this->image->store('uploads', 'public');
+        }
+        User::create($validated);
 
-        request()->session()->flash('success', 'User Created Successfully!');
+        $this->reset('name', 'email', 'password', 'image');
+
+        session()->flash('success', 'User Created Successfully!');
     }
     public function render()
     {

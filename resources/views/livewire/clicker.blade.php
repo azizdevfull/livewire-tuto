@@ -53,9 +53,13 @@
                     <div wire:loading wire:target='image'>
                         <span class="text-green-500">Uploading...</span>
                     </div>
+                    <div wire:loading.delay.longest>
+                        <span class="text-green-500">Sending...</span>
+                    </div>
                 </div>
+
                 <div>
-                    <button
+                    <button wire:loading.class='bg-blue-500' wire:loading.attr='disabled'
                         class="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base font-semibold text-white outline-none">
                         Submit
                     </button>

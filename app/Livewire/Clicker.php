@@ -24,8 +24,15 @@ class Clicker extends Component
 
     #[Rule('nullable|sometimes|image|max:1024')]
     public $image;
+
+    public function update($id)
+    {
+    }
+
     public function createNewUser()
     {
+        sleep(2);
+
         $validated = $this->validate();
 
         if ($this->image) {

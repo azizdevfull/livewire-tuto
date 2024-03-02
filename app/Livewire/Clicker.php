@@ -31,18 +31,25 @@ class Clicker extends Component
 
     public function createNewUser()
     {
-        sleep(2);
+
+        sleep(1);
 
         $validated = $this->validate();
 
         if ($this->image) {
             $validated['image'] = $this->image->store('uploads', 'public');
         }
-        User::create($validated);
+        $user = User::create($validated);
 
         $this->reset('name', 'email', 'password', 'image');
 
         session()->flash('success', 'User Created Successfully!');
+        $this->dispatch('clicker', $user);
+    }
+
+    public function reloadList()
+    {
+        $this->dispatch('clicker');
     }
     public function render()
     {
